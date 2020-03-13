@@ -1,0 +1,10 @@
+﻿  dllmain.cpp
+dllmain.cpp(59): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+dllmain.cpp(82): warning C4101: 'outputSize': unreferenced local variable
+  Generating code
+  2 of 2 functions (100.0%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  ReverseShellDLL.vcxproj -> C:\github\ReverseShellDLL\x64\Release\ReverseShellDLL.dll
+  ReverseShellDLL.vcxproj -> C:\github\ReverseShellDLL\x64\Release\ReverseShellDLL.pdb (Full PDB)

@@ -1,0 +1,5 @@
+﻿  dllmain.cpp
+c:\github\reverseshelldll\reverseshelldll\dllmain.cpp(59): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+c:\github\reverseshelldll\reverseshelldll\dllmain.cpp(82): warning C4101: 'outputSize': unreferenced local variable
+  ReverseShellDLL.vcxproj -> C:\github\ReverseShellDLL\x64\Debug\ReverseShellDLL.dll
+  ReverseShellDLL.vcxproj -> C:\github\ReverseShellDLL\x64\Debug\ReverseShellDLL.pdb (Full PDB)
