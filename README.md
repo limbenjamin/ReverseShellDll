@@ -5,15 +5,15 @@ Main Features
 -------------
 1. Universal DLL Hijack - ReverseShellDLL uses the DLL_PROCESS_ATTACH notification to ensure that the reverse shell is executed regardless of the export called. When the reverse shell exits, the process is 
 gracefully terminated, hence the "export not found" error message will never show. 
-2. SSL encryption - ReverseShellDLL uses OpenSSL library to perform the encryption.
+2. SSL Encryption - ReverseShellDLL uses OpenSSL library to perform the encryption.
 3. Statically Linked - ReverseShellDLL will run on all recent Windows versions out of the box without need for .NET framework or Microsoft C Runtime library to be installed.
 
 ![image](https://limbenjamin.com/media/reverseshelldll.png)
 
 Configuration
 -------------
-```shell
-ip 		- IP Address where listener is running
+```
+ip 	- IP Address where listener is running
 port 	- Port where listener is running
 process - Shell to Execute (i.e. cmd.exe, powershell.exe, bash.exe)
 exitCmd	- Typing this Cmd will cause the program to terminate
