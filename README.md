@@ -38,7 +38,7 @@ Running
 1. Generate SSL cert on listener machine
 ```shell
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
-cat test.key test.crt > test.pem
+cat key.pem cert.pem > test.pem
 ```
 2. Start listener
 ```shell
