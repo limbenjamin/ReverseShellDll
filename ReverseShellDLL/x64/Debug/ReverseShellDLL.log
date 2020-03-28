@@ -1,4 +1,7 @@
-﻿dllmain.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
+﻿  dllmain.cpp
+c:\github\reverseshelldll\reverseshelldll\dllmain.cpp(62): warning C4244: 'argument': conversion from 'SOCKET' to 'int', possible loss of data
+c:\github\reverseshelldll\reverseshelldll\dllmain.cpp(82): warning C4101: 'outputSize': unreferenced local variable
+dllmain.obj : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:LBR' specification
      Creating library C:\github\ReverseShellDLL\x64\Debug\ReverseShellDLL.lib and object C:\github\ReverseShellDLL\x64\Debug\ReverseShellDLL.exp
   ReverseShellDLL.vcxproj -> C:\github\ReverseShellDLL\x64\Debug\ReverseShellDLL.dll
   ReverseShellDLL.vcxproj -> C:\github\ReverseShellDLL\x64\Debug\ReverseShellDLL.pdb (Full PDB)

