@@ -12,7 +12,7 @@ Main Features
 Configuration
 -------------
 ```
-ip 	- IP Address where listener is running
+domain 	- Domain/IP Address where listener is running
 port 	- Port where listener is running
 process - Shell to Execute (i.e. cmd.exe, powershell.exe, bash.exe)
 exitCmd	- Typing this Cmd will cause the program to terminate
@@ -40,7 +40,7 @@ Running
 openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 cat key.pem cert.pem > test.pem
 ```
-2. Start listener
+2. Start listener. I have success with socat 1.7.3.2 and later. Earlier versions might have issues with protocol negotiation. If using bash, removing crnl from socat command line.
 ```shell
 socat openssl-listen:1443,reuseaddr,cert=test.pem,verify=0,fork,crnl -
 ```
